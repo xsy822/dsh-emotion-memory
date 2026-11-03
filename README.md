@@ -1,5 +1,7 @@
 # dsh-emotion-memory
 
+[![npm](https://img.shields.io/npm/v/dsh-emotion-memory.svg)](https://www.npmjs.com/package/dsh-emotion-memory)
+
 给对话代理用的**情绪 + 记忆**插件：一个 PAD 情绪场，一套带情感指纹的记忆，一段每轮注入的文本。
 
 > 版本 0.1.0 · 需要 DSH（DeepSeek Harness）宿主

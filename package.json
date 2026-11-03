@@ -40,5 +40,14 @@
     "cordis.patch.yml",
     "README.md",
     "CHANGELOG.md"
-  ]
+  ],
+  "engines": {
+    "dsh": ">=0.2.1-rc.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xsy822/dsh-emotion-memory.git"
+  },
+  "homepage": "https://github.com/xsy822/dsh-emotion-memory#readme",
+  "author": "xiaoshiyan"
 }
