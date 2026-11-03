@@ -107,8 +107,7 @@ window.__ModuleLoader__.load({
             h('div', { key: pair[0], style: { display: 'flex', flexDirection: 'column', gap: 3 } },
               h('div', { 'data-em-row': '' }, h('span', {}, pair[0]), h('span', {}, Math.round(Number(pair[1]) * 100) + '%')),
               h('div', { 'data-em-bar': '' },
-                h('div', { 'data-em-fill': '', style: { width: Math.max(1, Math.round(Number(pair[1]) * 100)) + '%' } }))))),
-        h(记录页, { 会话: props.会话 }))
+                h('div', { 'data-em-fill': '', style: { width: Math.max(1, Math.round(Number(pair[1]) * 100)) + '%' } }))))))
     }
 
     function 记忆页(props) {
