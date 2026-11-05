@@ -1,6 +1,6 @@
 {
   "name": "dsh-emotion-memory",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "情绪记忆模型 0.1：PAD 情绪场 + 带情感指纹的记忆，一套注入",
   "type": "module",
   "main": "lib/index.js",
@@ -49,5 +49,9 @@
     "url": "git+https://github.com/xsy822/dsh-emotion-memory.git"
   },
   "homepage": "https://github.com/xsy822/dsh-emotion-memory#readme",
-  "author": "xiaoshiyan"
+  "author": "xiaoshiyan",
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.2",
+    "onnxruntime-node": "^1.31.1"
+  }
 }

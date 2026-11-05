@@ -256,6 +256,39 @@ window.__ModuleLoader__.load({
           h('label', { 'data-em-row': '', style: { cursor: 'pointer' } },
             h('span', {}, '按关键词想起旧记忆'),
             h('input', { type: 'checkbox', checked: 配.记忆注入 !== false, onChange: (e) => 存({ 记忆注入: e.target.checked }) })),
+          (() => {
+            // hooks 必须在任何 return 之前，顺序不能变（上一版在这里写反了，整个设置页白屏）
+            const [就绪, set就绪] = React.useState(null)
+            const [日志, set日志] = React.useState('')
+            const [装着, set装着] = React.useState(false)
+            React.useEffect(() => { fetch('/dsh-emotion-memory/api/env').then((r) => r.json()).then(set就绪).catch(() => {}) }, [])
+            React.useEffect(() => {
+              if (!装着) return undefined
+              const t = setInterval(() => {
+                fetch('/dsh-emotion-memory/api/env/log').then((r) => r.json()).then((j) => set日志(j.文本 || '')).catch(() => {})
+              }, 1200)
+              return () => clearInterval(t)
+            }, [装着])
+            const 装 = () => {
+              set装着(true)
+              fetch('/dsh-emotion-memory/api/env/install', { method: 'POST' }).then((r) => r.json()).then((j) => {
+                if (!j.ok) { set日志('起不来：' + (j.error || '')); set装着(false) }
+              }).catch(() => { set日志('请求失败'); set装着(false) })
+            }
+            if (!就绪) return null
+            return h('div', {},
+              h('div', { 'data-cg-note': '' }, '依赖：' + (就绪.依赖 && 就绪.依赖.装了 ? '已装' : '没装') + '　模型：' + (就绪.模型 && 就绪.模型.就绪 ? '已就绪' : '没下')),
+              h('button', { 'data-cg-tab': '', onClick: 装, style: { marginTop: 6 } }, 装着 ? '正在装…' : '装依赖 + 下模型'),
+              (装着 || 日志) ? h('pre', {
+                style: {
+                  marginTop: 8, padding: '10px 12px', borderRadius: 10, maxHeight: 220, overflow: 'auto',
+                  background: 'rgba(127,127,127,.12)', fontSize: 11, lineHeight: 1.6, whiteSpace: 'pre-wrap',
+                },
+              }, 日志 || '等待输出…') : null)
+          })(),
+          h('label', { 'data-cg-row': '' }, h('span', {}, '语义检索（本地小模型）'),
+            h('input', { type: 'checkbox', checked: 配.向量检索 !== false, onChange: (e) => 改('向量检索', e.target.checked) })),
+          h('div', { 'data-cg-note': '' }, '打开后字面没命中、但意思相近的也能想起来；模型没装好会自动只用字面。'),
           h(数字, { 键: '记忆门槛', 名: '命中门槛', 值: 配.记忆门槛, 存: 改, 说明: '检索分低于它就不注入；调低更爱想起，但容易想起不相干' }),
           h(数字, { 键: '一次想起几条', 名: '一次想起几条（1–5）', 值: 配.一次想起几条, 步: 1, 存: 改, 说明: '一轮最多注入几条记忆，上限 5' }),
           h(数字, { 键: '重复间隔分钟', 名: '同一条多久内不重复（分钟）', 值: 配.重复间隔分钟, 步: 1, 存: 改, 说明: '同一条记忆在这个时间内不重复想起' }),
